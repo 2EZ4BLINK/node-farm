@@ -35,16 +35,19 @@ const tempCard = fs.readFileSync(
   `${__dirname}/templates/template-card.html`,
   "utf-8",
 );
-
 const tempProduct = fs.readFileSync(
   `${__dirname}/templates/template-product.html`,
   "utf-8",
 );
 
 const server = http.createServer((req, res) => {
-  const pathName = req.url;
+  const { pathname, searchParams } = new URL(
+    req.url,
+    `http://${req.headers.host}`,
+  );
+  const id = searchParams.get("id");
 
-  if (pathName === "/" || pathName == "/overview") {
+  if (pathname === "/" || pathname == "/overview") {
     res.writeHead(200, {
       "Content-type": "text/html",
     });
@@ -53,8 +56,17 @@ const server = http.createServer((req, res) => {
     const output = tempOverview.replace("{ProductCards}", cardsHtml);
     res.end(output);
 
+    // Product
+  } else if (pathname === "/product") {
+    const product = dataObj[id];
+    res.writeHead(200, {
+      "Content-type": "text/html",
+    });
+    const output = replaceTemplate(tempProduct, product);
+    res.end(output);
+
     // API
-  } else if (pathName === "/api") {
+  } else if (pathname === "/api") {
     res.writeHead(200, {
       "Content-type": "application/json",
     });
