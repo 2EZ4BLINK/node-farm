@@ -1,0 +1,26 @@
+{
+  "name": "node-farm",
+  "version": "1.0.0",
+  "description": "Learning node.js",
+  "homepage": "https://github.com/2EZ4BLINK/node-farm#readme",
+  "bugs": {
+    "url": "https://github.com/2EZ4BLINK/node-farm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2EZ4BLINK/node-farm.git"
+  },
+  "license": "ISC",
+  "author": "2EZ4BLINK",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "slugify": "^1.6.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

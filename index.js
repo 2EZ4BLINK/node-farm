@@ -1,13 +1,7 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
-
-// const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
-// console.log(textIn);
-
-// const textOut = `This is what we know abbout the avocado: ${textIn}. \nCreated on ${Date.now()}`;
-// fs.writeFileSync("./txt/output.txt", textOut);
-// console.log("File written");
+const slugify = require("slugify");
 
 const replaceTemplate = (temp, product) => {
   let output = temp.replace(/{ProductName}/g, product.productName);
@@ -26,6 +20,7 @@ const replaceTemplate = (temp, product) => {
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
+const slugs = dataObj.map((i) => slugify(i.productName, { lower: true }));
 
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
@@ -53,7 +48,7 @@ const server = http.createServer((req, res) => {
     });
 
     const cardsHtml = dataObj.map((e) => replaceTemplate(tempCard, e)).join("");
-    const output = tempOverview.replace("{ProductCards}", cardsHtml);
+    const output = tempOverview.resplace("{ProductCards}", cardsHtml);
     res.end(output);
 
     // Product
